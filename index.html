@@ -1,0 +1,393 @@
+<center><img src="logo.png" alt="PySynth" width="590" height="105"></center>
+<a href="https://github.com/mdoege/PySynth"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+<p align="center">
+<a href="#d">Downloads</a> | 
+<a href="#h">Changes</a> | 
+<a href="#m">Modules</a> | 
+<a href="#u">Usage</a> | 
+<a href="#l">License</a> | 
+<a href="#c">Contact</a>
+</p></center>
+
+<p><b>PySynth</b> is a simple music synthesizer written in <a href="http://www.python.org/">Python</a>. It&rsquo;s based on a script I found on the Web and then modified for my purposes. The goal is not to produce many different sounds, but to have scripts that can turn <a hreF="http://abcnotation.org.uk/">ABC notation</a> into a WAV file without too much tinkering.</p>
+
+<p>There are three variants: PySynth A is faster, only needs Python itself, and sounds more like a cross between a flute and organ. PySynth B is more complex in sound and needs <a href="http://numpy.scipy.org/">NumPy</a>. It's supposed to be a little closer to a piano. (No competition for Pianoteq of course, but a reasonable fit for keyboard music.) Finally, PySynth S is more comparable to a guitar, banjo, or harpsichord, depending on note length and pitch.</p>
+
+<p>The current release of the synthesizer is monophonic, i.e. it can only play one note at a time.  (Although successive notes can overlap in PySynth B and S, but not A.)  However, two output files can be mixed together as in the case of the stereo files below.</p>
+
+<p>If you need more powerful Python sound synthesis than PySynth offers, you might want to check out the <a href="http://code.google.com/p/pyo/">Pyo</a> toolkit.</p>
+
+<h2><a name="e">Examples</a></h2>
+<p>Here are some sample output files converted to MP4 format:</p>
+
+<ul>
+<li>Mono:</li>
+<ul>
+<li><a href="pysynth_anthem.mp4">American Anthem</a> &mdash; PySynth <b>A</b></li>
+<li><a href="pysynth_chopin.mp4">Beginning of a Chopin Nocturne</a> &mdash; PySynth <b>B</b></li>
+<li><a href="menuet.mp4">Bach: <i>Menuet in G</i></a> &mdash; PySynth <b>S</b> &sim; <a href="menuet.abc.txt">abc source</a></li>
+<li><a href="sailors_hornpipe.mp4"><i>The Sailor&rsquo;s Hornpipe</i></a> &mdash; PySynth <b>S</b> &sim; <a href="sailor.abc.txt">abc source</a></li>
+</ul>
+
+<li>Stereo:</li>
+<ul>
+<li><a href="pysynth_bach.mp4">Bach: Bourrée from BWV 996</a> &mdash; PySynth <b>B</b></li>
+<li><a href="jesu.mp4">Bach: <i>Jesu, Joy of Man&rsquo;s Desiring</i></a> &mdash; PySynth <b>S</b> (treble) and <b>B</b> (bass) &sim; <a href="jesu.abc.txt">abc source</a></li>
+</ul>
+</ul>
+
+<h2><a name="d">Downloads</a></h2>
+
+<p>Current <tt><a href="http://en.wikipedia.org/wiki/Tar_(file_format)">tar.gz</a></tt> archive of <b>all</b> PySynth modules:</p>
+
+<p align="center"><tt><a href="PySynth-1.0.1.tar.gz">PySynth-1.0.1.tar.gz</a></tt>&nbsp;<small>(2012-08-01)</small><br />
+<a href="old/index.html">(older versions)</a></p>
+
+<p>You can also browse the <a href="https://github.com/mdoege/PySynth">current repository</a> at  <a href="https://github.com/">GitHub</a> and obtain the source code by using the <a href="http://git-scm.com/">git</a> command <tt>git clone git://github.com/mdoege/PySynth.git</tt></p>
+
+<p>Individual modules can also be downloaded separately below.</p>
+
+<p><a href="https://github.com/pranavrc">Pranav Ravichandran</a> currently has a <a href="https://github.com/pranavrc/PySynth">fork</a> at GitHub where he is implementing some cool new features.</p>
+
+<h2><a name="h">Changes</a></h2>
+
+<p><b>V1.0.1</b> fixes a minor issue with Pyglet sound playback and corrects the import path for PyAudio. Thanks again, Pranav!</p>
+
+<p><b>V1.0</b> added interactive song creation and playback via <tt>menv.py</tt>. This CLI allows you to enter notes and hear them played back as synthesized by PySynth. Thanks, Pranav!</p>
+
+<p><b>V0.9</b> introduced a <a href="http://cuu508.wordpress.com/2011/04/12/ringtonesynth/">Nokia ringtone synthesizer</a> module, contributed by <a href="https://github.com/cuu508">P&#275;teris Caune</a>. (Run <tt>nokiacomposer2wav.py</tt> to generate some audio samples. He also provides an <a href="http://ringtonesynth.appspot.com/">online version</a>.) Thanks, Pete!</p>
+
+<p><b>V0.8</b>: Improved support for ABC notation features such as tuplets and song tempo; better performance and sound of PySynth &ldquo;S&rdquo;.</p>
+
+<p><b>V0.7</b>: Added the ABC parser and the &ldquo;B&rdquo; and &ldquo;S&rdquo; synths.</p>
+
+<p><b>V0.6</b>: Initial public release</p>
+
+<h2><a name="m">Synthesizer modules</a></h2>
+
+<p>(These modules take a list of notes and note lengths and use it to create a WAV file.)</p>
+
+<h3>PySynth &ldquo;A&rdquo;</h3>
+
+<p>This synth is very simple and sounds vaguely like a flute or organ. Only <a href="http://www.python.org/">Python v2.x</a> (not 3.x!) itself is needed for PySynth A. It should run on all Python-supported platforms, like Windows, Unix, and the Mac.</p>
+
+<h3>PySynth &ldquo;B&rdquo;</h3>
+
+<p>This module attempts to create a more piano-like sound with more harmonics. This version is polyphonic in the sense that it doesn&rsquo;t cut off previous notes when the next note sounds.</p>
+
+<h3>PySynth &ldquo;S&rdquo;</h3>
+
+<p>This module simulates a single plucked string with the <a href="http://en.wikipedia.org/wiki/Karplus-Strong_string_synthesis">Karplus-Strong algorithm</a> (think guitar or harpsichord). Due to the nature of this kind of synthesis, <b>higher frequency-notes in particular can be slightly out of tune with PySynth S</b>, as opposed to the other variants where the harmonics are exact. This could be remedied with a higher sampling rate, but that would also make it a little slow for Python.</p>
+
+<p>Note that PySynth B and S require <a href="http://numpy.scipy.org/">NumPy</a> in addition to Python itself, but binary installation packages are available for Windows / Linux / OS X, so this should not be a problem.</p>
+
+<h3>PySynth beeper</h3>
+
+<p>This belongs to <tt>nokiacomposer2wav.py</tt>.</p>
+
+<h2>Controller scripts</h2>
+
+<p>(These scripts serve as more convenient ways to drive the actual synthesizers.)</p>
+
+<h3>ABC parser</h3>
+
+<p>PySynth has some basic support for music in the <a hreF="http://abcnotation.org.uk/">ABC notation language</a>. The script needs the location of the ABC song file (either local or via http), optionally followed by the song number (defaults to 1):</p>
+
+<pre>% python read_abc.py http://trillian.mit.edu/~jc/music/abc/Germany/LiliMarlen.abc</pre>
+
+<p>&rArr; <a href="marlen.mp4">Lili Marleen.mp4</a></p>
+
+<p>Detailed usage:</p>
+
+<pre>read_abc.py filename [num_song] [--syn_b/--syn_s]
+
+* num_song selects the song in the file corresponding to the number given
+* --syn_b and --syn_s can be added to use the PySynth B or PySynth S
+    modules, respectively, instead of the default PySynth A</pre>
+
+<p>If you need a quick way to edit, visualize, and&mdash;in supported browsers&mdash;play an ABC music file, take a look at <a href="http://waterpigs.co.uk/pig/">ABCPig</a>.</p>
+
+<h3>Interactive command line environment</h3>
+
+<p>This feature, contributed by <a href="https://github.com/pranavrc">Pranav Ravichandran</a>, is used by running <tt>menv.py</tt>. It is really self-explaining, you enter your desired notes and any optional parameters like bpm on the command line and after you hit return PySynth synthesizes the sound and plays it back via the speakers. Depending on the speed of your computer and the length of the sound, there might be a slight pause between your input and sound playback.</p>
+
+<p><a href="http://people.csail.mit.edu/hubert/pyaudio/">PyAudio</a> is recommended for playback functionality, but <a href="http://www.pyglet.org/">Pyglet</a>, tkSnack, or a command line audio player of your choice are also supported.</p>
+
+<h3>Nokia ringtone synthesizer</h3>
+
+<p><a href="https://github.com/cuu508">P&#275;teris Caune</a> has implemented <tt>nokiacomposer2wav.py</tt>, which as the name suggests takes a Nokia ringtone and synthesizes it using <tt>pysynth_beeper.py</tt>. <tt>nokiacomposer2wav.py</tt> also produces some test files when invoked directly.</p>
+
+<hr>
+
+<h2><a name="u">Usage</a></h2>
+
+<p>The script can be used as a module by other Python programs or the interactive Python shell:</p>
+
+<pre>
+% <b>python</b>
+ActivePython 2.5.0.0 (ActiveState Software Inc.) based on
+Python 2.5 (r25:51908, Mar  9 2007, 17:40:37) 
+[GCC 4.0.1 (Apple Computer, Inc. build 5250)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> <b>import pysynth</b>
+>>> <b>test = ( ('c', 4), ('e', 4), ('g', 4), ('c5', 1) )</b>
+>>> <b>pysynth.make_wav(test, fn = "test.wav")</b>
+Writing to file test.wav
+[1/4]
+
+>>> 
+</pre>
+<p>&hellip;which will give you <a href="test.wav">this timeless masterpiece</a>. That&rsquo;s the C major chord over the middle C followed by the high C. Three quarters, followed by a whole note (which PySynth assumes to equal 4 quarters).</p>
+
+<p>First comes the note name (a to g), then optionally a '#' or 'b' for sharp or flat, then optionally the octave (defaults to 4). An asterisk at the end means to play the note a little louder.</p>
+
+<p>The note duration comes next, with dotted notes represented by negative numbers (e.g. -2 is a dotted half note). 'r' is a rest. So e.g. &ldquo;The Blue Danube&rdquo; starts with:</p>
+
+<pre>
+song = (
+                       ('c', 4),
+  ('c*', 4), ('e', 4), ('g', 4),
+  ('g*', 2), ('g5', 4),
+  ('g5*', 4), ('r', 4), ('e5', 4),
+  ('e5*', 4) 
+)
+
+>>> <b>from pysynth_b import *</b>
+*** EXPERIMENTAL PIANO VERSION WITH NOTE CACHING ***
+>>> <b>make_wav(song, fn = "danube.wav", leg_stac = .7, bpm = 180)</b> &larr; <i>Beats per minute is
+                                                                          really </i>quarters<i>
+                                                                          per minute here.</i>
+[1/10]
+[5/10]
+[9/10]
+Writing to file <a href="danube.wav">danube.wav</a>
+
+>>> 
+</pre>
+
+<p>For more convenient note entry, you can e.g. use the <b>ABC notation importer</b>:</p>
+
+<p>This is an example from the <a href="http://trillian.mit.edu/~jc/music/abc/doc/ABCprimer.html">ABC documentation</a>:</p>
+
+<pre>
+X: 1
+T: Balance the Straw
+R: jig
+N: This tune goes with one of the best-known Morris dances. It is also a good jig
+N: for other dances, usually in AABB form. The B phrase bears a strong resemblance
+N: to a certain Christmas carol, and at Morris dances you will hear words like:
+N: __ Hark! the herald angels sing, __
+N: __ Glory to the Morris Ring. __
+N: Sometimes assorted other things are praised by the angels.
+N:
+M: 6/8
+L: 1/8
+K: G
+D \
+|: "G"G2B B>AB | "C"c2A A>ce | "D7"d>ed cAc | "G"G2B B2D \
+|  "G"G2B B>AB | "C"c2A A>ce | "D7"d>ed cEF | "G"G4 z2 :|
+B/c/ \
+|: "G"dz d dz G | "(D7)"c2B "D7"B2A |  "G"dz d dz G | "D7"B2A A2D \
+|  "G"G2B B>AB | "C"c2A A>ce | "D7"d>ed cEF | "G"G4 z2 :|
+</pre>
+
+<p>Creating the audio with:</p>
+
+<pre>python read_abc.py straw.abc</pre>
+
+<p>gives you <a href="straw.mp4">this file</a>.</p>
+
+<hr>
+
+<h3><a name="l">License</a></h3>
+
+<p>This software is provided under the <a href="http://www.gnu.org/copyleft/gpl.html">GPL</a>.</p>
+
+<h3><a name="c">Contact</a></h3>
+
+<p>Email: <a href="mailto:mdoege@compuserve.com?subject=PySynth">Martin C. Doege</a></p>
+
+<hr>
+
+<h3>Sample program output</h3>
+
+<pre>
+% <b>time python pysynth.py</b>
+Piano key frequencies (for equal temperament):
+Key number      Scientific name Frequency (Hz)
+         1                   A0          27.50
+         2                  A#0          29.14
+         3                   B0          30.87
+         4                   C1          32.70
+         5                  C#1          34.65
+         6                   D1          36.71
+         7                  D#1          38.89
+         8                   E1          41.20
+         9                   F1          43.65
+        10                  F#1          46.25
+        11                   G1          49.00
+        12                  G#1          51.91
+        13                   A1          55.00
+        14                  A#1          58.27
+        15                   B1          61.74
+        16                   C2          65.41
+        17                  C#2          69.30
+        18                   D2          73.42
+        19                  D#2          77.78
+        20                   E2          82.41
+        21                   F2          87.31
+        22                  F#2          92.50
+        23                   G2          98.00
+        24                  G#2         103.83
+        25                   A2         110.00
+        26                  A#2         116.54
+        27                   B2         123.47
+        28                   C3         130.81
+        29                  C#3         138.59
+        30                   D3         146.83
+        31                  D#3         155.56
+        32                   E3         164.81
+        33                   F3         174.61
+        34                  F#3         185.00
+        35                   G3         196.00
+        36                  G#3         207.65
+        37                   A3         220.00
+        38                  A#3         233.08
+        39                   B3         246.94
+        40                   C4         261.63
+        41                  C#4         277.18
+        42                   D4         293.66
+        43                  D#4         311.13
+        44                   E4         329.63
+        45                   F4         349.23
+        46                  F#4         369.99
+        47                   G4         392.00
+        48                  G#4         415.30
+        49                   A4         440.00
+        50                  A#4         466.16
+        51                   B4         493.88
+        52                   C5         523.25
+        53                  C#5         554.37
+        54                   D5         587.33
+        55                  D#5         622.25
+        56                   E5         659.26
+        57                   F5         698.46
+        58                  F#5         739.99
+        59                   G5         783.99
+        60                  G#5         830.61
+        61                   A5         880.00
+        62                  A#5         932.33
+        63                   B5         987.77
+        64                   C6        1046.50
+        65                  C#6        1108.73
+        66                   D6        1174.66
+        67                  D#6        1244.51
+        68                   E6        1318.51
+        69                   F6        1396.91
+        70                  F#6        1479.98
+        71                   G6        1567.98
+        72                  G#6        1661.22
+        73                   A6        1760.00
+        74                  A#6        1864.66
+        75                   B6        1975.53
+        76                   C7        2093.00
+        77                  C#7        2217.46
+        78                   D7        2349.32
+        79                  D#7        2489.02
+        80                   E7        2637.02
+        81                   F7        2793.83
+        82                  F#7        2959.96
+        83                   G7        3135.96
+        84                  G#7        3322.44
+        85                   A7        3520.00
+        86                  A#7        3729.31
+        87                   B7        3951.07
+        88                   C8        4186.01
+
+Creating Demo Songs... (this might take about a minute)
+
+Writing to file pysynth_scale.wav
+[1/26]
+[5/26]
+[9/26]
+[13/26]
+[17/26]
+[21/26]
+[25/26]
+
+Writing to file pysynth_anthem.wav
+[1/25]
+[5/25]
+[9/25]
+[13/25]
+[17/25]
+[21/25]
+[25/25]
+
+Writing to file pysynth_chopin.wav
+[1/29]
+[5/29]
+[9/29]
+[13/29]
+[17/29]
+[21/29]
+[25/29]
+[29/29]
+
+Writing to file pysynth_bach_rh.wav
+[1/52]
+[5/52]
+[9/52]
+[13/52]
+[17/52]
+[21/52]
+[25/52]
+[29/52]
+[33/52]
+[37/52]
+[41/52]
+[45/52]
+[49/52]
+[1/52]
+[5/52]
+[9/52]
+[13/52]
+[17/52]
+[21/52]
+[25/52]
+[29/52]
+[33/52]
+[37/52]
+[41/52]
+[45/52]
+[49/52]
+
+Writing to file pysynth_bach_lh.wav
+[1/33]
+[5/33]
+[9/33]
+[13/33]
+[17/33]
+[21/33]
+[25/33]
+[29/33]
+[33/33]
+[1/33]
+[5/33]
+[9/33]
+[13/33]
+[17/33]
+[21/33]
+[25/33]
+[29/33]
+[33/33]
+
+Mixing files, total length 29.54 s...
+0 s
+5 s
+10 s
+15 s
+20 s
+25 s
+63.615u 0.498s 1:06.09 96.9%    0+0k 0+45io 0pf+0w
+</pre>
